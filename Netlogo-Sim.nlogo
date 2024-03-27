@@ -8,6 +8,29 @@ to setup
   resize-world -100 100 -100 100
   set-patch-size 2
   ask patches [ set pcolor [235 235 235]]
+  
+  setup-axespoints
+  setup-xaxis
+  setup-yaxis
+  
+  
+  
+  
+end
+
+to-report slide-maximum 
+  report 1
+end
+
+to-report slide-minimum 
+  report -1
+end
+
+to-report slide-inc 
+  report .1
+end
+
+to setup-axespoints
   let x-axes patches with [
   	pycor = 0
     and 
@@ -28,12 +51,6 @@ to setup
     sprout-points 1 [
     	setup-appearance
     ]
-  ]
-  
-	ask turtles with [xcor = 0 and ycor = 0] [
-    ask my-links [
-    	set color black
-    ]
   ]  
   
   ask x-axes [
@@ -48,25 +65,7 @@ to setup
     ]    
   ]
   
-  setup-xaxis
-  setup-yaxis
-  
-  
 end
-
-to-report slide-maximum 
-  report 1
-end
-
-to-report slide-minimum 
-  report -1
-end
-
-to-report slide-inc 
-  report .1
-end
-
-
 
 to setup-xaxis
   let beginpt one-of turtles with [ xcor = min-pxcor and ycor = 0 ]
@@ -102,6 +101,12 @@ to setup-appearance
     set shape "circle"
     set size .3
   
+  ]
+  
+  ask turtles with [xcor = 0 and ycor = 0] [
+    ask my-links [
+    	set color gray
+    ]
   ]
   
 end
@@ -159,11 +164,11 @@ to graph
   plottaylor
   connecttaylor
   
-  ask turtles with [xcor = 0 and ycor = 0] [
-    ask my-links [
-    	set color black
-    ]
-  ]
+  ;ask turtles with [xcor = 0 and ycor = 0] [
+    ;ask my-links [
+    	;set color black
+    ;]
+  ;]
 end 
 
 to-report calculate-function [input]
