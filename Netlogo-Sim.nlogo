@@ -2,7 +2,7 @@ breed [points point]
 breed [points2 point2]
 
 to setup
-
+	
   clear-all
   
   resize-world -100 100 -100 100
@@ -14,8 +14,10 @@ to setup
   setup-yaxis
   
   
+  graph
   
-  
+  ask turtles [setup-appearance]
+    
 end
 
 to-report slide-maximum 
@@ -74,6 +76,7 @@ to setup-xaxis
   
   ask beginpt [ create-link-with origin ]
   ask origin [ create-link-with endpt ]
+  
  	
 end
 
@@ -84,6 +87,9 @@ to setup-yaxis
   
   ask beginpt [ create-link-with origin ]
   ask origin [ create-link-with endpt ]
+  
+
+ 
 end
 
 to setup-appearance 
@@ -103,9 +109,15 @@ to setup-appearance
   
   ]
   
-  ask turtles with [xcor = 0 and ycor = 0] [
+  ask turtles with [abs xcor = max-pxcor and ycor = 0] [
     ask my-links [
     	set color gray
+    ]
+  ]
+  
+  ask turtles with [xcor = 0 and abs ycor = max-pycor] [
+    ask my-links [
+    	set color grey
     ]
   ]
   
@@ -113,16 +125,17 @@ end
 
 
 to plotpoints
-  let xcord min-pycor
+  let xcord min-pxcor
   loop [
     if xcord = max-pxcor [ stop ]
     
     let y calculate-function xcord
     ;;if round y < max-pycor [ show round y] 
     
-    ask patches with [ pxcor = xcord and pycor = round y] [sprout-points 1 [ setup-appearance ]]
+    ask patches with [ pxcor = xcord and pycor = round y] [sprout-points 1 [ setup-appearance facexy xcord max-pycor]]
     
     set xcord xcord + 1
+  	
   ]
   
   
@@ -164,22 +177,23 @@ to graph
   plottaylor
   connecttaylor
   
-  ;ask turtles with [xcor = 0 and ycor = 0] [
-    ;ask my-links [
-    	;set color black
-    ;]
-  ;]
+  
+  
 end 
 
 to-report calculate-function [input]
-  let value constant + x1-coefficient * (input) / max-pxcor + x2-coefficient * ((input) / max-pxcor)^(2) + x3-coefficient * ((input) / max-pxcor)^(3) + x4-coefficient * ((input) / max-pxcor)^(4) + x5-coefficient * ((input) / max-pxcor)^(5) + x6-coefficient * ((input) / max-pxcor)^(6) + x7-coefficient * ((input) / max-pxcor)^(7)
-  let newvalue precision (value * max-pxcor )  5
+  let scaledinput (input / max-pxcor)
+  
+  let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4) + x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6) + x7-coefficient * scaledinput ^(7)
+  let newvalue precision (value * max-pxcor)  5
   report newvalue
 end
 
 to-report taylor-approximation [input] 
-  let value constant + x1-coefficient * ((input) / max-pxcor) + x2-coefficient * ((input) / max-pxcor)^ 2 / factorial 2 + x3-coefficient * ((input) / max-pxcor)^ 3 / factorial 3 + x4-coefficient * ((input) / max-pxcor)^ 4 / factorial 4 + x5-coefficient * ((input) / max-pxcor)^ 5 / factorial 5 + x6-coefficient * ((input) / max-pxcor)^ 6 / factorial 6 + x7-coefficient * ((input) / max-pxcor)^ 7 / factorial 7 
-	let newvalue precision (value * max-pxcor )  5
+  let scaledinput (input / max-pxcor)
+
+  let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^ 2 / factorial 2 + x3-coefficient * scaledinput ^ 3 / factorial 3 + x4-coefficient * scaledinput ^ 4 / factorial 4 + x5-coefficient * scaledinput ^ 5 / factorial 5 + x6-coefficient * scaledinput ^ 6 / factorial 6 + x7-coefficient * scaledinput ^ 7 / factorial 7 
+	let newvalue precision (value * max-pxcor)  5
 	report newvalue
 end
 
@@ -191,7 +205,7 @@ to plottaylor
     let y taylor-approximation xcord
     ;;if round y < max-pycor [ show round y] 
     
-    ask patches with [ pxcor = xcord and pycor = round y] [sprout-points2 1 [ setup-appearance ]]
+    ask patches with [ pxcor = xcord and pycor = round y] [sprout-points2 1 [ setup-appearance facexy xcord max-pycor]]
     
     set xcord xcord + 1
   ]
@@ -234,9 +248,9 @@ to-report factorial [input]
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-215
+185
 0
-625
+595
 411
 -1
 -1
@@ -261,29 +275,12 @@ ticks
 30
 
 BUTTON
-15
-10
-195
-70
+0
+0
+180
+60
+NIL
 setup
-setup
-NIL
-1
-T
-OBSERVER
-NIL
-NIL
-NIL
-NIL
-1
-
-BUTTON
-15
-75
-195
-135
-graph
-graph
 NIL
 1
 T
@@ -295,10 +292,25 @@ NIL
 1
 
 SLIDER
-20
-145
-190
-178
+0
+155
+180
+188
+x1-coefficient
+x1-coefficient
+-1
+1
+0
+.1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+0
+120
+180
+153
 constant
 constant
 -1
@@ -310,106 +322,91 @@ NIL
 HORIZONTAL
 
 SLIDER
-19
-185
-189
-218
-x1-coefficient
-x1-coefficient
-slide-minimum
-slide-maximum
 0
-slide-inc
-1
-NIL
-HORIZONTAL
-
-SLIDER
-20
-220
 190
-253
+180
+223
 x2-coefficient
 x2-coefficient
-slide-minimum
-slide-maximum
+-1
+1
 0
-slide-inc
+.1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-20
+0
+225
+180
 258
-190
-291
 x3-coefficient
 x3-coefficient
-slide-minimum
-slide-maximum
+-1
+1
 0
-slide-inc
+.1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-20
+0
+260
+180
+293
+x4-coefficient
+x4-coefficient
+-1
+1
+0
+.1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+0
 295
-190
+180
 328
-x4-coefficient
-x4-coefficient
-slide-minimum
-slide-maximum
+x5-coefficient
+x5-coefficient
+-1
+1
 0
-slide-inc
+.1
 1
 NIL
 HORIZONTAL
 
 SLIDER
-20
-332
-190
+0
+330
+180
+363
+x6-coefficient
+x6-coefficient
+-1
+1
+0
+.1
+1
+NIL
+HORIZONTAL
+
+SLIDER
+0
 365
-x5-coefficient
-x5-coefficient
-slide-minimum
-slide-maximum
-0
-slide-inc
-1
-NIL
-HORIZONTAL
-
-SLIDER
-20
-370
-190
-403
-x6-coefficient
-x6-coefficient
-slide-minimum
-slide-maximum
-0
-slide-inc
-1
-NIL
-HORIZONTAL
-
-SLIDER
-20
-407
-190
-440
+180
+398
 x7-coefficient
 x7-coefficient
-slide-minimum
-slide-maximum
+-1
+1
 0
-slide-inc
+.1
 1
 NIL
 HORIZONTAL
