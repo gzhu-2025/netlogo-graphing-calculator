@@ -195,18 +195,52 @@ end
 to-report taylor-approximation [input] 
   let scaledinput (input / max-pxcor)
 
-  let value (constant + x1-coefficient * scaledinput  + x2-coefficient * (scaledinput ^ 2) + x3-coefficient * scaledinput ^ 3  + x4-coefficient * scaledinput ^ 4 + x5-coefficient * scaledinput ^ 5 + x6-coefficient * scaledinput ^ 6 + x7-coefficient * scaledinput ^ 7)* (1 - abs (scaledinput * error-scale))
-	let newvalue precision (value * max-pxcor)  5
-	report newvalue
+  (ifelse
+    degree = 1 [
+      let value (constant + x1-coefficient * scaledinput)
+      let newvalue precision (value * max-pxcor)  5
+			report newvalue
+  	]
+    degree = 2 [
+      let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2))
+  		let newvalue precision (value * max-pxcor)  5
+			report newvalue
+    ]
+    degree = 3 [
+  		let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3)
+  		let newvalue precision (value * max-pxcor)  5
+			report newvalue
+    ]
+    degree = 4 [
+  		let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4)
+  		let newvalue precision (value * max-pxcor)  5
+			report newvalue
+    ]
+    degree = 5 [
+  		let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4) + x5-coefficient * scaledinput ^(5)
+  		let newvalue precision (value * max-pxcor)  5
+			report newvalue
+    ]
+    degree = 6 [
+  		let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4) + x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6)
+  		let newvalue precision (value * max-pxcor)  5
+			report newvalue
+    ]
+    degree = 7 [
+  		let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4) + x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6) + x7-coefficient * scaledinput ^(7)
+  		let newvalue precision (value * max-pxcor)  5
+			report newvalue
+  ])
+  
 end
 
 to go 
   
-  set error-scale error-scale - .1
-  if precision error-scale 1 < 0 [set error-scale 1 stop ]
+  set degree degree + 1
+  if degree > 7 [set degree 1 setup stop ]
 
-  setup
-  
+	setup
+
 
 end
 
@@ -425,16 +459,16 @@ NIL
 HORIZONTAL
 
 SLIDER
-0
-125
-180
-158
-error-scale
-error-scale
-0
+3
+126
+183
+159
+degree
+degree
+1
+7
 1
 1
-.1
 1
 NIL
 HORIZONTAL
