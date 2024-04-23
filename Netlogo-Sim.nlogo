@@ -181,11 +181,18 @@ to connect
       let nexty calculate-function (xcord + 1)
     
     	if nexty < max-pycor and y > min-pycor [
-      		let next one-of turtles with [ xcor = (xcord + 1) and ycor = round nexty]
+      		let next one-of turtles with [ 
+			xcor = (xcord + 1) and ycor = round nexty
+		]
       	
-    		if y > min-pycor and y < max-pxcor and nexty > min-pycor and nexty < max-pycor [
+    		if y > min-pycor and 
+		   y < max-pxcor and 
+		   nexty > min-pycor and 
+		   nexty < max-pycor [
       			ask prev [ 
-				create-link-with next ask my-links [ set color black ]
+				create-link-with next ask my-links [ 
+					set color black 
+				]
 			]
     		]
       ]
@@ -210,8 +217,11 @@ end
 to-report calculate-function [input]
   let scaledinput (input / max-pxcor)
   
-  let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3)
-		+ x4-coefficient * scaledinput ^(4) + x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6) + x7-coefficient * scaledinput ^(7))
+  let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2)
+		+ x3-coefficient * scaledinput ^(3)+ x4-coefficient * scaledinput ^(4)
+		+ x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6)
+		+ x7-coefficient * scaledinput ^(7))
+
   let newvalue precision (value * max-pxcor)  5
   report newvalue
 end
@@ -231,30 +241,41 @@ to-report taylor-approximation [input]
 			report newvalue
     ]
     degree = 3 [
-  		let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3)
+  		let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2)
+				+ x3-coefficient * scaledinput ^(3))
+
   		let newvalue precision (value * max-pxcor)  5
 			report newvalue
     ]
     degree = 4 [
-  		let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4)
+  		let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2)
+				+ x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4))
+
   		let newvalue precision (value * max-pxcor)  5
 			report newvalue
     ]
     degree = 5 [
-  		let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4)
-			+ x5-coefficient * scaledinput ^(5))
+  		let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2)
+				+ x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4)
+				+ x5-coefficient * scaledinput ^(5))
+
   		let newvalue precision (value * max-pxcor)  5
 			report newvalue
     ]
     degree = 6 [
-  		let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4)
-			+ x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6))
+  		let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2)
+				+ x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4)
+				+ x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6))
+
   		let newvalue precision (value * max-pxcor)  5
 			report newvalue
     ]
     degree = 7 [
-  		let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4)
-			+ x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6) + x7-coefficient * scaledinput ^(7))
+  		let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2)
+			+ x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4)
+			+ x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6)
+			+ x7-coefficient * scaledinput ^(7))
+
   		let newvalue precision (value * max-pxcor)  5
 			report newvalue
   ])
@@ -279,7 +300,11 @@ to plottaylor
     let y taylor-approximation xcord
     
     
-    ask patches with [ pxcor = xcord and pycor = round y] [sprout-points2 1 [ setup-appearance facexy xcord max-pycor]]
+    ask patches with [ pxcor = xcord and pycor = round y] [
+			sprout-points2 1 [ 
+				setup-appearance facexy xcord max-pycor
+			]
+   ]
     
     set xcord xcord + 1
   ]
@@ -302,10 +327,19 @@ to connecttaylor
       let nexty taylor-approximation (xcord + 1)
     
     	if nexty < max-pycor and y > min-pycor [
-      		let next one-of turtles with [ xcor = (xcord + 1) and ycor = round nexty]
+      		let next one-of turtles with [ 
+			xcor = (xcord + 1) and ycor = round nexty
+		]
       	
-    		if y > min-pycor and y < max-pxcor and nexty > min-pycor and nexty < max-pycor [
-          		ask prev [create-link-with next ask my-links [set color red]]
+    		if y > min-pycor and 
+		   y < max-pxcor and 
+		   nexty > min-pycor and 
+		   nexty < max-pycor [
+          		ask prev [
+				create-link-with next ask my-links [
+					set color red
+				]
+			]
     		]
       ]
     
