@@ -73,23 +73,43 @@ to setup-axespoints
 end
 
 to setup-xaxis
-  let beginpt one-of turtles with [ xcor = min-pxcor and ycor = 0 ]
-  let endpt one-of turtles with [ xcor = max-pxcor and ycor = 0 ]
-  let origin one-of turtles with [ xcor = 0 and ycor = 0 ]
+  let beginpt one-of turtles with [ 
+	xcor = min-pxcor and ycor = 0 
+	]
+  let endpt one-of turtles with [ 
+	xcor = max-pxcor and ycor = 0 
+	]
+  let origin one-of turtles with [ 
+	xcor = 0 and ycor = 0 
+	]
   
-  ask beginpt [ create-link-with origin ]
-  ask origin [ create-link-with endpt ]
+  ask beginpt [ 
+	create-link-with origin 
+	]
+  ask origin [ 
+	create-link-with endpt 
+	]
   
  	
 end
 
 to setup-yaxis 
-  let beginpt one-of turtles with [ ycor = min-pycor and xcor = 0 ]
-  let endpt one-of turtles with [ ycor = max-pycor and xcor = 0 ]
-  let origin one-of turtles with [ xcor = 0 and ycor = 0 ]
+  let beginpt one-of turtles with [ 
+	ycor = min-pycor and xcor = 0 
+	]
+  let endpt one-of turtles with [ 
+	ycor = max-pycor and xcor = 0 
+	]
+  let origin one-of turtles with [ 
+	xcor = 0 and ycor = 0 
+	]
   
-  ask beginpt [ create-link-with origin ]
-  ask origin [ create-link-with endpt ]
+  ask beginpt [ 
+	create-link-with origin 
+	]
+  ask origin [ 
+	create-link-with endpt 
+	]
   
 
  
@@ -112,7 +132,7 @@ to setup-appearance
   
   ]
   
-  ask turtles with [abs xcor = max-pxcor and ycor = 0] [
+  ask turtles with [ abs xcor = max-pxcor and ycor = 0 ] [
     ask my-links [
     	set color gray
     ]
@@ -133,39 +153,42 @@ to plotpoints
     if xcord = max-pxcor [ stop ]
     
     let y calculate-function xcord
-    ;;if round y < max-pycor [ show round y] 
     
-    ask patches with [ pxcor = xcord and pycor = round y] [sprout-points 1 [ setup-appearance facexy xcord max-pycor]]
+    ask patches with [ pxcor = xcord and pycor = round y] [
+	sprout-points 1 [ 
+			setup-appearance facexy xcord max-pycor
+			]
+	]
     
     set xcord xcord + 1
   	
   ]
-  
   
 end
 
 to connect 
   let xcord min-pxcor
   loop [
-    if xcord = max-pxcor - 1[ stop ]
+    if xcord = max-pxcor - 1 [ stop ]
      
     
     let y calculate-function xcord
  
     if y < max-pycor and y > min-pycor [
-    	let prev one-of turtles with [ xcor = xcord and ycor = round y]
-      ;ask prev [set label-color red set label ","]
+    	let prev one-of turtles with [ xcor = xcord and ycor = round y ]
+
     	
       let nexty calculate-function (xcord + 1)
     
     	if nexty < max-pycor and y > min-pycor [
-      	let next one-of turtles with [ xcor = (xcord + 1) and ycor = round nexty]
-      	;ask next [set label-color blue set label "'"]
+      		let next one-of turtles with [ xcor = (xcord + 1) and ycor = round nexty]
+      	
     		if y > min-pycor and y < max-pxcor and nexty > min-pycor and nexty < max-pycor [
-      		ask prev [create-link-with next ask my-links [set color black]]
+      			ask prev [ 
+				create-link-with next ask my-links [ set color black ]
+			]
     		]
       ]
-    
     	
     ]
 
@@ -187,7 +210,8 @@ end
 to-report calculate-function [input]
   let scaledinput (input / max-pxcor)
   
-  let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4) + x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6) + x7-coefficient * scaledinput ^(7)
+  let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3)
+		+ x4-coefficient * scaledinput ^(4) + x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6) + x7-coefficient * scaledinput ^(7))
   let newvalue precision (value * max-pxcor)  5
   report newvalue
 end
@@ -217,17 +241,20 @@ to-report taylor-approximation [input]
 			report newvalue
     ]
     degree = 5 [
-  		let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4) + x5-coefficient * scaledinput ^(5)
+  		let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4)
+			+ x5-coefficient * scaledinput ^(5))
   		let newvalue precision (value * max-pxcor)  5
 			report newvalue
     ]
     degree = 6 [
-  		let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4) + x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6)
+  		let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4)
+			+ x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6))
   		let newvalue precision (value * max-pxcor)  5
 			report newvalue
     ]
     degree = 7 [
-  		let value constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4) + x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6) + x7-coefficient * scaledinput ^(7)
+  		let value (constant + x1-coefficient * scaledinput + x2-coefficient * scaledinput ^(2) + x3-coefficient * scaledinput ^(3) + x4-coefficient * scaledinput ^(4)
+			+ x5-coefficient * scaledinput ^(5) + x6-coefficient * scaledinput ^(6) + x7-coefficient * scaledinput ^(7))
   		let newvalue precision (value * max-pxcor)  5
 			report newvalue
   ])
@@ -250,7 +277,7 @@ to plottaylor
     if xcord = max-pxcor [ stop ]
     
     let y taylor-approximation xcord
-    ;;if round y < max-pycor [ show round y] 
+    
     
     ask patches with [ pxcor = xcord and pycor = round y] [sprout-points2 1 [ setup-appearance facexy xcord max-pycor]]
     
@@ -269,16 +296,16 @@ to connecttaylor
     let y taylor-approximation xcord
  
     if y < max-pycor and y > min-pycor [
-    	let prev one-of turtles with [ xcor = xcord and ycor = round y]
-      ;ask prev [set label-color red set label ","]
+    	let prev one-of turtles with [ xcor = xcord and ycor = round y ]
+      
     	
       let nexty taylor-approximation (xcord + 1)
     
     	if nexty < max-pycor and y > min-pycor [
-      	let next one-of turtles with [ xcor = (xcord + 1) and ycor = round nexty]
-      	;ask next [set label-color blue set label "'"]
+      		let next one-of turtles with [ xcor = (xcord + 1) and ycor = round nexty]
+      	
     		if y > min-pycor and y < max-pxcor and nexty > min-pycor and nexty < max-pycor [
-          ask prev [create-link-with next ask my-links [set color red]]
+          		ask prev [create-link-with next ask my-links [set color red]]
     		]
       ]
     
@@ -293,6 +320,7 @@ to-report factorial [input]
   if input = 1 [ report 1 ]
   report input * factorial (input - 1)
 end
+
 @#$#@#$#@
 GRAPHICS-WINDOW
 185
