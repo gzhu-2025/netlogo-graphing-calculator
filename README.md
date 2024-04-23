@@ -10,6 +10,6 @@ Requirements - There are no extra requirements required to run the code, only ac
 
 Execution - Once the program is imported into your NetLogo of choice, the function can be specified with the sliders labeled constant, x1-coefficient, x2-coefficient, x3-coefficient... and so on. These represent the constant term and the coefficients of the powers of x in the septic function. The 'degree' slider changes the degree of the Taylor polynomial, which affects how closely it models the original function. The Taylor polynomial graph can either be graphed statically by pressing 'Setup' or graphed dynamically by pressing 'Go', which graphs the function and with its Taylor approximation with a gradually increasing degree, starting from the set degree and then ending and resetting once the degree reaches 7.
 
-Troubleshooting - If importing the model does not work with one file type, try downloading and importing the other file type. If there is a compilation error, try redownloading the file from the repository or downloading the other file type. 
+Troubleshooting - If importing the model does not work with one file type, try downloading and importing the other file type. If there is a compilation error, try redownloading the file from the repository or downloading the other file type. The model may not graph increasing degrees of the Taylor polynomial correctly if the model speed is set too high. For best results, set model speed at the default speed, around the middle of the slider. 
 
 Authors - Geoffrey Zhu
