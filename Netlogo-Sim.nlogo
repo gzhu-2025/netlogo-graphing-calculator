@@ -206,10 +206,10 @@ end
 
 to graph
   plotpoints
-  connect
+  connect black
   
   plottaylor
-  connecttaylor
+  connecttaylor red
   
   
   
