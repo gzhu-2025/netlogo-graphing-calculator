@@ -156,7 +156,8 @@ to plotpoints
     
     ask patches with [ pxcor = xcord and pycor = round y] [
 	sprout-points 1 [ 
-			setup-appearance facexy xcord max-pycor
+			setup-appearance 
+			facexy xcord max-pycor
 			]
 	]
     
@@ -166,7 +167,7 @@ to plotpoints
   
 end
 
-to connect 
+to connect [linkcolor]
   let xcord min-pxcor
   loop [
     if xcord = max-pxcor - 1 [ stop ]
@@ -191,7 +192,7 @@ to connect
 		   nexty < max-pycor [
       			ask prev [ 
 				create-link-with next ask my-links [ 
-					set color black 
+					set color linkcolor 
 				]
 			]
     		]
@@ -302,7 +303,8 @@ to plottaylor
     
     ask patches with [ pxcor = xcord and pycor = round y] [
 			sprout-points2 1 [ 
-				setup-appearance facexy xcord max-pycor
+				setup-appearance
+				facexy xcord max-pycor
 			]
    ]
     
@@ -312,7 +314,7 @@ to plottaylor
   
 end
 
-to connecttaylor
+to connecttaylor [linkcolor]
   let xcord min-pxcor
   loop [
     if xcord = max-pxcor - 1[ stop ]
@@ -337,7 +339,7 @@ to connecttaylor
 		   nexty < max-pycor [
           		ask prev [
 				create-link-with next ask my-links [
-					set color red
+					set color linkcolor
 				]
 			]
     		]
@@ -348,11 +350,6 @@ to connecttaylor
 
     set xcord xcord + 1
   ]
-end
-
-to-report factorial [input]
-  if input = 1 [ report 1 ]
-  report input * factorial (input - 1)
 end
 
 @#$#@#$#@
