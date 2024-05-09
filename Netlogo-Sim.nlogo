@@ -1,5 +1,6 @@
 ;;I wrote the entirety of this code independently
 
+;;defining point types
 breed [points point]	
 breed [points2 point2]
 
@@ -131,7 +132,8 @@ to setup-appearance
     set size .3
   
   ]
-  
+
+  ;;change link colors
   ask turtles with [ abs xcor = max-pxcor and ycor = 0 ] [
     ask my-links [
     	set color gray
@@ -146,7 +148,7 @@ to setup-appearance
   
 end
 
-
+;;plotting function points
 to plotpoints
   let xcord min-pxcor
   loop [
@@ -167,6 +169,7 @@ to plotpoints
   
 end
 
+;;connecting points of plotted function points
 to connect [linkcolor]
   let xcord min-pxcor
   loop [
@@ -293,6 +296,7 @@ to go
 
 end
 
+;;plot taylor approximation points
 to plottaylor
   let xcord min-pycor
   loop [
@@ -314,6 +318,7 @@ to plottaylor
   
 end
 
+;;connect plotted taylor approximation points
 to connecttaylor [linkcolor]
   let xcord min-pxcor
   loop [
