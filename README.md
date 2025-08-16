@@ -1,4 +1,4 @@
-# Netlogo-Simulation
+# Netlogo-Graphing-Calculator
 
 This program graphs a 7th degree function(septic function) and graphs its Taylor polynomial approximation. This program is written entirely in NetLogo and can be imported and run at NetLogo Web.  
 
